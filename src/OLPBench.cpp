@@ -151,16 +151,18 @@ void OLPBench::generateMatrix(int i, int j, int k, double density) {
 
 void OLPBench::launchTest(ostream *output, double p) {
 	timeval t1,t2;
-	int cQ, cBC, cBP, tQ, tBC, tBP;
 	int dicho;
+	double param=p;
 	olp->computeQualities(false);
-
 	gettimeofday(&t1, NULL);
 	olp->computeDichotomy(threshold);
 	gettimeofday(&t2, NULL);
 	dicho=((t2.tv_sec - t1.tv_sec) * 1000)
 			+ ((t2.tv_usec - t1.tv_usec) / 1000);
-	olp->computeParts(p);
+	if (param==-1){
+		param=rand()/RAND_MAX;
+	}
+	olp->computeParts(param);
 	*output << ", " << olp->getAggreg()->getQualityCount() << ", " << olp->getAggreg()->getBestCutCount() << ", " << olp->getAggreg()->getBestPartitionCount() << ", " << olp->getAggreg()->getQualityDuration() << ", " << dicho << ", " << olp->getAggreg()->getBestCutDuration() << ", " << olp->getAggreg()->getBestPartitionDuration() << ", " << olp->getParameterNumber()<<endl;
 	delete olp;
 }
