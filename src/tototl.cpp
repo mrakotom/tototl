@@ -20,7 +20,7 @@
 
 #define READ vector<string> tab; \
 			for (unsigned int i=0; i<(*loop).size(); i++){ \
-				tab.push_back((*loop)[i]);} \
+				tab.push_back((*loop)[i].c_str());}\
 
 
 using namespace std;
@@ -43,33 +43,30 @@ int main(int argc, const char* argv[]) {
     State state = Idle;
     //Test test = Temporal;
     OLPBench bench;
-
     //Iterator for parsing csv file. ',' is used as separator between each field.
     CSVIterator loop(input, ',');
-    for(; loop != CSVIterator(); ++loop) {
-    	string c=(*loop)[0];
-    	if (c[0]=='#'){
-    	if (c.compare("#TEST")) state=Test;
-    	else if (c.compare("#D1")) state=D1;
-    	else if (c.compare("#D2")) state=D2;
-    	else if (c.compare("#D3")) state=D3;
-    	else if (c.compare("#DICHO")) state=Dicho;
-    	else if (c.compare("#P")) state=P;
-    	else if (c.compare("#P")) state=Density;
-    	else if (c.compare("#ITERATION")) state=Iteration;
-    	}else{
+    for(; loop != CSVIterator(); loop++) {
+    	if ((*loop)[0].compare("#TEST")==0){ state=Test;}
+    	else if ((*loop)[0].compare("#D1")==0) {state=D1;}
+    	else if ((*loop)[0].compare("#D2")==0) {state=D2;}
+    	else if ((*loop)[0].compare("#D3")==0) {state=D3;}
+    	else if ((*loop)[0].compare("#DICHO")==0) {state=Dicho;}
+    	else if ((*loop)[0].compare("#P")==0) {state=P;}
+    	else if ((*loop)[0].compare("#DENSITY")==0) {state=Density;}
+    	else if ((*loop)[0].compare("#ITERATION")==0) {state=Iteration;}
+    	else if ((*loop)[0].compare("#END")==0) {break;}
+    	else{
     		if (state==Test){
-    			if (c.compare("TEMPORAL")){
-    				//test=Temporal;
+    			if ((*loop)[0].compare("TEMPORAL")==0){
     			}
     		}
-    		else if (state==D1){ READ;bench.addDimension1(tab);}
-    		else if (state==D2){ READ;bench.addDimension2(tab);}
-    		else if (state==D3){ READ;bench.addDimension2(tab);}
-    		else if (state==Dicho){ READ;bench.addThreshold(tab);}
-    		else if (state==P){ READ;bench.addP(tab);}
-    		else if (state==Density){ READ;bench.addDensity(tab);}
-    		else if (state==Iteration){ READ;bench.addIteration(tab);}
+    		else if (state==D1){ READ bench.addDimension1(tab);}
+    		else if (state==D2){ READ bench.addDimension2(tab);}
+    		else if (state==D3){ READ bench.addDimension3(tab);}
+    		else if (state==Dicho){ READ bench.addThreshold(tab);}
+    		else if (state==P){ READ bench.addP(tab);}
+    		else if (state==Density){ READ bench.addDensity(tab);}
+    		else if (state==Iteration){ READ bench.addIteration(tab);}
     	}
     }
     bench.launchBench(output);

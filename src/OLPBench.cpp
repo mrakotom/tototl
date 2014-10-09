@@ -7,28 +7,9 @@
 
 #include "OLPBench.h"
 
-OLPBench::OLPBench():threshold(0.1),iteration(1),olp(0) {
+OLPBench::OLPBench():dimension1(new vector<int>()),dimension2(new vector<int>()),dimension3(new vector<int>()),
+threshold(0.1),p(new vector<double>()),density(new vector<double>()),iteration(1),olp(0) {
 	srand (time(NULL));
-}
-
-const vector<double>& OLPBench::getDensity() const {
-	return density;
-}
-
-const vector<int>& OLPBench::getDimension1() const {
-	return dimension1;
-}
-
-const vector<int>& OLPBench::getDimension2() const {
-	return dimension2;
-}
-
-const vector<int>& OLPBench::getDimension3() const {
-	return dimension3;
-}
-
-const vector<double>& OLPBench::getP() const {
-	return p;
 }
 
 void OLPBench::addDimension1(vector<string> tab) {
@@ -60,19 +41,15 @@ void OLPBench::addDensity(vector<string> tab) {
 OLPBench::~OLPBench() {
 }
 
-void OLPBench::addLineInteger(vector<string> tab, vector<int> allocator) {
+void OLPBench::addLineInteger(vector<string> tab, vector<int> * allocator) {
 	if (tab.size()==3&&(atoi((tab[1]).c_str())>atoi((tab[2]).c_str()))){
-		for (int i=(atoi((tab[0]).c_str())); i<(atoi((tab[1]).c_str())); i+=(atoi((tab[2]).c_str())))
-		allocator.push_back(i);
+		for (int i=(atoi((tab[0]).c_str())); i<=(atoi((tab[1]).c_str())); i+=(atoi((tab[2]).c_str())))
+		allocator->push_back(i);
 	}else{
 		for (unsigned int i=0; i<tab.size(); i++){
-			allocator.push_back(atoi((tab[i]).c_str()));
+			allocator->push_back(atoi((tab[i]).c_str()));
 		}
 	}
-}
-
-int OLPBench::getIteration() const {
-	return iteration;
 }
 
 void OLPBench::addIteration(vector<string> tab) {
@@ -81,32 +58,32 @@ void OLPBench::addIteration(vector<string> tab) {
 	}
 }
 
-void OLPBench::addLineDouble(vector<string> tab, vector<double> allocator) {
+void OLPBench::addLineDouble(vector<string> tab, vector<double> * allocator) {
 	if (tab.size()==3&&(atof((tab[1]).c_str())>atof((tab[2]).c_str()))){
-		for (unsigned int i=(atof((tab[0]).c_str())); i<(atof((tab[1]).c_str())); i+=(atof((tab[2]).c_str())))
-		allocator.push_back(i);
+		for (double i=(atof((tab[0]).c_str())); i<=(atof((tab[1]).c_str())); i+=(atof((tab[2]).c_str())))
+		allocator->push_back(i);
 	}else{
 		for (unsigned int i=0; i<tab.size(); i++){
-			if (tab[i].compare("rand")){
-				allocator.push_back(-1);
+			if (tab[i].compare("rand")==0){
+				allocator->push_back(-1);
 			}else{
-				allocator.push_back(atof((tab[i]).c_str()));
+				allocator->push_back(atof((tab[i]).c_str()));
 			}
 		}
 	}
 }
 
 
-void OLPBench::addLineFloat(vector<string> tab, vector<float> allocator) {
+void OLPBench::addLineFloat(vector<string> tab, vector<float> * allocator) {
 	if (tab.size()==3&&(atof((tab[1]).c_str())>atof((tab[2]).c_str()))){
-		for (unsigned int i=(atof((tab[0]).c_str())); i<(atof((tab[1]).c_str())); i+=(atof((tab[2]).c_str())))
-		allocator.push_back(i);
+		for (double i=(atof((tab[0]).c_str())); i<=(atof((tab[1]).c_str())); i+=(atof((tab[2]).c_str())))
+		allocator->push_back(i);
 	}else{
 		for (unsigned int i=0; i<tab.size(); i++){
-			if (tab[i].compare("rand")){
-				allocator.push_back(-1);
+			if (tab[i].compare("rand")==0){
+				allocator->push_back(-1);
 			}else{
-				allocator.push_back(atof((tab[i]).c_str()));
+				allocator->push_back(atof((tab[i]).c_str()));
 			}
 		}
 	}
@@ -121,25 +98,25 @@ void OLPBench::launchBench(ostream *output) {
 	double cdensity=1;
 	double cp=1;
 	printHeader(output);
-	for (unsigned int i=0; i<dimension1.size();i++){
-		cdimension1=dimension1[i];
-		for (unsigned int j=0; j<dimension2.size();j++){
-			cdimension2=dimension2[j];
-			for (unsigned int k=0; j<dimension3.size();k++){
-				cdimension3=dimension3[k];
-				for (unsigned int l=0; l<density.size(); l++){
-					cdensity=density[l];
-					for (unsigned int m=0; m<p.size(); m++){
-						cp=p[m];
+	for (unsigned int i=0; i<dimension1->size();i++){
+		cdimension1=(*dimension1)[i];
+		for (unsigned int j=0; j<dimension2->size();j++){
+			cdimension2=(*dimension2)[j];
+			for (unsigned int k=0; k<dimension3->size();k++){
+				cdimension3=(*dimension3)[k];
+				for (unsigned int l=0; l<density->size(); l++){
+					cdensity=(*density)[l];
+					for (unsigned int m=0; m<p->size(); m++){
+						cp=(*p)[m];
 						for (int n=0; n<iteration; n++){
-							*output<< (++num) <<", "<< cdimension1 <<", "<< cdimension2 <<", "+ cdimension3 <<", "<< threshold;
+							*output<< (++num) <<", "<< cdimension1 <<", "<< cdimension2 <<", "<< cdimension3 <<", "<< threshold;
 							if (cp==-1){
 								*output<<", "<< "rand";
 							}else{
 								*output<<", " << cp;
 							}
 							*output<<", " << cdensity;
-							generateMatrix(i,j,k,l);
+							generateMatrix(cdimension1,cdimension2,cdimension3,cdensity);
 							launchTest(output,cp);
 					}
 				}
@@ -174,8 +151,10 @@ void OLPBench::generateMatrix(int i, int j, int k, double density) {
 
 void OLPBench::launchTest(ostream *output, double p) {
 	timeval t1,t2;
+	int cQ, cBC, cBP, tQ, tBC, tBP;
 	int dicho;
 	olp->computeQualities(false);
+
 	gettimeofday(&t1, NULL);
 	olp->computeDichotomy(threshold);
 	gettimeofday(&t2, NULL);
@@ -183,6 +162,7 @@ void OLPBench::launchTest(ostream *output, double p) {
 			+ ((t2.tv_usec - t1.tv_usec) / 1000);
 	olp->computeParts(p);
 	*output << ", " << olp->getAggreg()->getQualityCount() << ", " << olp->getAggreg()->getBestCutCount() << ", " << olp->getAggreg()->getBestPartitionCount() << ", " << olp->getAggreg()->getQualityDuration() << ", " << dicho << ", " << olp->getAggreg()->getBestCutDuration() << ", " << olp->getAggreg()->getBestPartitionDuration() << ", " << olp->getParameterNumber()<<endl;
+	delete olp;
 }
 
 void printHeader(ostream *output){
