@@ -8,11 +8,13 @@
 #ifndef OLPBENCH_H_
 #define OLPBENCH_H_
 
+#include <cstdlib>
 #include <vector>
 #include <string>
 #include <iostream>
 #include <sstream>
 #include <time.h>
+#include <sys/time.h>
 #include <benchlpaggreg/OLPAggregWrapper.h>
 
 using namespace std;

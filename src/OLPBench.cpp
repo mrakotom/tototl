@@ -173,12 +173,18 @@ void OLPBench::generateMatrix(int i, int j, int k, double density) {
 }
 
 void OLPBench::launchTest(ostream *output, double p) {
+	timeval t1,t2;
+	int dicho;
 	olp->computeQualities(false);
+	gettimeofday(&t1, NULL);
 	olp->computeDichotomy(threshold);
+	gettimeofday(&t2, NULL);
+	dicho=((t2.tv_sec - t1.tv_sec) * 1000)
+			+ ((t2.tv_usec - t1.tv_usec) / 1000);
 	olp->computeParts(p);
-	*output << ", " << 0 << ", " << 0 << ", " << 0 << ", " << 0 << ", " << 0 << ", " << 0 << ", " << 0 << ", " << 0 << ", " << olp->getParameterNumber()<<endl;
+	*output << ", " << olp->getAggreg()->getQualityCount() << ", " << olp->getAggreg()->getBestCutCount() << ", " << olp->getAggreg()->getBestPartitionCount() << ", " << olp->getAggreg()->getQualityDuration() << ", " << dicho << ", " << olp->getAggreg()->getBestCutDuration() << ", " << olp->getAggreg()->getBestPartitionDuration() << ", " << olp->getParameterNumber()<<endl;
 }
 
 void printHeader(ostream *output){
-	*output << "N, DIM1, DIM2, DIM3, DICHO, P, DENSITY, COUNTER Q, COUNTER DICHO, COUNTER BC, COUNTER BP, TIME Q, TIME DICHO, TIME BC, TIME BP, P RETRIEVED" <<endl;
+	*output << "N, DIM1, DIM2, DIM3, DICHO, P, DENSITY, COUNTER Q, COUNTER BC, COUNTER BP, TIME Q, TIME DICHO, TIME BC, TIME BP, P RETRIEVED" <<endl;
 }
