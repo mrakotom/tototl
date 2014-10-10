@@ -17,17 +17,26 @@
 #include <csvreader/CSVIterator.h>
 #include <lpaggreg/OLPAggregWrapper.h>
 #include "OLPBench.h"
+#include "DLPBench.h"
 
 #define READ vector<string> tab; \
 			for (unsigned int i=0; i<(*loop).size(); i++){ \
-				tab.push_back((*loop)[i].c_str());}\
+				tab.push_back((*loop)[i].c_str());}
+
+#define SBENCH DLPBench* bencht=static_cast<DLPBench*>(bench);\
+				bencht
+
+#define TBENCH bench
+
+#define TEST type!=Void
+
 
 
 using namespace std;
 
-enum State { Idle, Test, D1, D2, D3, Dicho, P, Density, Iteration };
+enum State { Idle, Test, D1, D2, D3, Dicho, P, Density, Iteration, Tree};
 
-enum Test { Temporal, Spatiotemporal };
+enum Type { Void, Temporal, Spatiotemporal };
 
 int main(int argc, const char* argv[]) {
 	if (argc<2){
@@ -41,8 +50,8 @@ int main(int argc, const char* argv[]) {
     ifstream input(argv[1]);
     ofstream *output=new ofstream(argv[2]);
     State state = Idle;
-    //Test test = Temporal;
-    OLPBench bench;
+    Type type = Void;
+    OLPBench * bench = new OLPBench();
     //Iterator for parsing csv file. ',' is used as separator between each field.
     CSVIterator loop(input, ',');
     for(; loop != CSVIterator(); loop++) {
@@ -57,18 +66,23 @@ int main(int argc, const char* argv[]) {
     	else if ((*loop)[0].compare("#END")==0) {break;}
     	else{
     		if (state==Test){
-    			if ((*loop)[0].compare("TEMPORAL")==0){
-    			}
+    			if ((*loop)[0].compare("TEMPORAL")==0){ type=Temporal;}
+    			else if ((*loop)[0].compare("SPATIOTEMPORAL")==0){ type=Spatiotemporal; delete bench; bench = new DLPBench();}
     		}
-    		else if (state==D1){ READ bench.addDimension1(tab);}
-    		else if (state==D2){ READ bench.addDimension2(tab);}
-    		else if (state==D3){ READ bench.addDimension3(tab);}
-    		else if (state==Dicho){ READ bench.addThreshold(tab);}
-    		else if (state==P){ READ bench.addP(tab);}
-    		else if (state==Density){ READ bench.addDensity(tab);}
-    		else if (state==Iteration){ READ bench.addIteration(tab);}
+    		else if (TEST && state==D1){ READ TBENCH->addDimension1(tab);}
+    		else if (TEST && state==D2){ READ TBENCH->addDimension2(tab);}
+    		else if (TEST && state==D3){ READ TBENCH->addDimension3(tab);}
+    		else if (TEST && state==Dicho){ READ TBENCH->addThreshold(tab);}
+    		else if (TEST && state==P){ READ TBENCH->addP(tab);}
+    		else if (TEST && state==Density){ READ TBENCH->addDensity(tab);}
+    		else if (TEST && state==Iteration){ READ TBENCH->addIteration(tab);}
+    		else if (TEST && state==Tree&&type==Spatiotemporal){ READ SBENCH->addStructure(tab);}
     	}
     }
-    bench.launchBench(output);
+    if (type==Temporal){
+    	TBENCH->launchBench(output);
+    }else if (type==Spatiotemporal){
+    	SBENCH->launchBench(output);
+    }
     return 0;
 }

@@ -4,14 +4,17 @@
 
 # Add inputs and outputs from these tool invocations to the build variables 
 CPP_SRCS += \
+../src/DLPBench.cpp \
 ../src/OLPBench.cpp \
 ../src/tototl.cpp 
 
 OBJS += \
+./src/DLPBench.o \
 ./src/OLPBench.o \
 ./src/tototl.o 
 
 CPP_DEPS += \
+./src/DLPBench.d \
 ./src/OLPBench.d \
 ./src/tototl.d 
 

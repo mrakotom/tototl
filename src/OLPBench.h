@@ -20,7 +20,7 @@
 using namespace std;
 
 class OLPBench {
-	private:
+	protected:
 		vector<int> * dimension1;
 		vector<int> * dimension2;
 		vector<int> * dimension3;

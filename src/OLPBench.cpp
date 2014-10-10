@@ -73,7 +73,6 @@ void OLPBench::addLineDouble(vector<string> tab, vector<double> * allocator) {
 	}
 }
 
-
 void OLPBench::addLineFloat(vector<string> tab, vector<float> * allocator) {
 	if (tab.size()==3&&(atof((tab[1]).c_str())>atof((tab[2]).c_str()))){
 		for (double i=(atof((tab[0]).c_str())); i<=(atof((tab[1]).c_str())); i+=(atof((tab[2]).c_str())))
@@ -88,7 +87,6 @@ void OLPBench::addLineFloat(vector<string> tab, vector<float> * allocator) {
 		}
 	}
 }
-
 
 void OLPBench::launchBench(ostream *output) {
 	int num=0;
@@ -118,12 +116,11 @@ void OLPBench::launchBench(ostream *output) {
 							*output<<", " << cdensity;
 							generateMatrix(cdimension1,cdimension2,cdimension3,cdensity);
 							launchTest(output,cp);
+						}
 					}
-				}
 				}
 			}
 		}
-
 	}
 }
 
