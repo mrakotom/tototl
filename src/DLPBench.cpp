@@ -11,7 +11,6 @@ namespace std {
 
 DLPBench::DLPBench(): OLPBench(OLPBench()), structure(new vector<int>()), dlp(DLPAggregWrapper(2)){
 	// TODO Auto-generated constructor stub
-	
 }
 
 DLPBench::~DLPBench() {
@@ -26,6 +25,21 @@ void DLPBench::generateMatrix(int i, int j, int k, double density,
 }
 
 void DLPBench::launchTest(ostream* output, double p) {
+	timeval t1,t2;
+	int dicho;
+	double param=p;
+	olp->computeQualities(false);
+	gettimeofday(&t1, NULL);
+	olp->computeDichotomy(threshold);
+	gettimeofday(&t2, NULL);
+	dicho=((t2.tv_sec - t1.tv_sec) * 1000)
+			+ ((t2.tv_usec - t1.tv_usec) / 1000);
+	if (param==-1){
+		param=rand()/RAND_MAX;
+	}
+	olp->computeParts(param);
+	*output << ", " << olp->getAggreg()->getQualityCount() << ", " << olp->getAggreg()->getBestCutCount() << ", " << olp->getAggreg()->getBestPartitionCount() << ", " << olp->getAggreg()->getQualityDuration() << ", " << dicho << ", " << olp->getAggreg()->getBestCutDuration() << ", " << olp->getAggreg()->getBestPartitionDuration() << ", " << olp->getParameterNumber()<<endl;
+	delete olp;
 }
 
 void DLPBench::launchBench(ostream *output) {
@@ -57,7 +71,7 @@ void DLPBench::launchBench(ostream *output) {
 									*output<<", " << cp;
 								}
 								*output<<", " << cdensity;
-								generateMatrix(cdimension1,cdimension2,cdimension3,cdensity, cstructure);
+								generateMatrix(cdimension1,cdimension2,cdimension3,cdensity,cstructure);
 								launchTest(output,cp);
 								}
 							}
