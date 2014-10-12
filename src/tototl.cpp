@@ -63,6 +63,7 @@ int main(int argc, const char* argv[]) {
     	else if ((*loop)[0].compare("#P")==0) {state=P;}
     	else if ((*loop)[0].compare("#DENSITY")==0) {state=Density;}
     	else if ((*loop)[0].compare("#ITERATION")==0) {state=Iteration;}
+    	else if ((*loop)[0].compare("#TREE")==0) {state=Tree;}
     	else if ((*loop)[0].compare("#END")==0) {break;}
     	else{
     		if (state==Test){
