@@ -1,5 +1,5 @@
 # All Target
-OBJ=ozomatli
+OBJ=tototl
 
 all: release
 
