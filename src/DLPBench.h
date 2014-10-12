@@ -21,10 +21,12 @@ class DLPBench: public OLPBench {
 		DLPBench();
 		virtual ~DLPBench();
 		void addStructure(vector<string> tab);
-		void generateMatrix(int i, int j, int k, double density, int structure);
+		void generateMatrix(int i, int j, int k, double density, int structure, ostream *output);
 		void launchTest(ostream *output, double p);
 		void launchBench(ostream *output);
 };
+
+void printSpaceHeader(ostream *output);
 
 } /* namespace std */
 

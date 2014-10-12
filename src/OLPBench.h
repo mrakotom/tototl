@@ -51,7 +51,7 @@ class OLPBench {
 };
 
 int generateValue(double density);
-void printHeader(ostream *output);
+void printTimeHeader(ostream *output);
 
 
 #endif /* OLPBENCH_H_ */

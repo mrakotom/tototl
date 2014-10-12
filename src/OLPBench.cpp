@@ -95,14 +95,14 @@ void OLPBench::addLineFloat(vector<string> tab, vector<float> * allocator) {
 
 void OLPBench::launchBench(ostream *output) {
 	int total=dimension1->size()*dimension2->size()*dimension3->size()*density->size()*p->size()*iteration;
-	cout<<total<< "tests to run"<<endl;
+	cout<<total<< " tests to run"<<endl;
 	int num=0;
 	int cdimension1=1;
 	int cdimension2=1;
 	int cdimension3=1;
 	double cdensity=1;
 	double cp=1;
-	printHeader(output);
+	printTimeHeader(output);
 	for (unsigned int i=0; i<dimension1->size();i++){
 		cdimension1=(*dimension1)[i];
 		for (unsigned int j=0; j<dimension2->size();j++){
@@ -123,7 +123,8 @@ void OLPBench::launchBench(ostream *output) {
 							*output<<", " << cdensity;
 							generateMatrix(cdimension1,cdimension2,cdimension3,cdensity);
 							launchTest(output,cp);
-							cout<<'\r'<<num/total<< "%% done";
+							double pc=(double)num/(double)total;
+							cout<<'\r'<<pc<< "% done";
 						}
 					}
 				}
@@ -172,6 +173,6 @@ void OLPBench::launchTest(ostream *output, double p) {
 	delete olp;
 }
 
-void printHeader(ostream *output){
+void printTimeHeader(ostream *output){
 	*output << "N, DIM1, DIM2, DIM3, DICHO, P, DENSITY, COUNTER Q, COUNTER BC, COUNTER BP, TIME Q, TIME DICHO, TIME BC, TIME BP, P RETRIEVED" <<endl;
 }

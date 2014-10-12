@@ -22,7 +22,7 @@ void DLPBench::addStructure(vector<string> tab) {
 }
 
 void DLPBench::generateMatrix(int time, int nodes, int types, double density,
-		int structure) {
+		int structure, ostream *output) {
 	dlp= new DLPAggregWrapper(2);
     vector<VirtualNode*>elements=vector<VirtualNode*>();
     vector<VirtualNode*>leaves=vector<VirtualNode*>();
@@ -31,7 +31,7 @@ void DLPBench::generateMatrix(int time, int nodes, int types, double density,
     dlp->newRoot(0);
     elements.push_back(new VirtualNode(0,0));
 
-    for (int i=1, j=0; i<nodes; i++) {
+    for (int i=1, j=0; i<nodes+1; i++) {
        elements.push_back(new VirtualNode(i,0));
        elements[j]->addChild(elements[elements.size()-1]);
        if (i%structure==0)
@@ -45,6 +45,7 @@ void DLPBench::generateMatrix(int time, int nodes, int types, double density,
         	pendings.push_back(elements[i]);
         }
     }
+    *output<<", " << nodes+1 << ", " << leaves.size() << ", " << structure;
     for (unsigned int i=0; i< pendings.size(); i++) {
     	dlp->newNode(pendings[i]->getId(), pendings[i]->getFather()->getId());
     }
@@ -58,6 +59,7 @@ void DLPBench::generateMatrix(int time, int nodes, int types, double density,
     	}
     }
     dlp->validate();
+
     delete elements[0];
 }
 
@@ -81,7 +83,7 @@ void DLPBench::launchTest(ostream* output, double p) {
 
 void DLPBench::launchBench(ostream *output) {
 	int total=dimension1->size()*dimension2->size()*dimension3->size()*density->size()*p->size()*structure->size()*iteration;
-	cout<<total<< "tests to run"<<endl;
+	cout<<total<< " tests to run"<<endl;
 	int num=0;
 	int cdimension1=1;
 	int cdimension2=1;
@@ -89,7 +91,7 @@ void DLPBench::launchBench(ostream *output) {
 	int cstructure=1;
 	double cdensity=1;
 	double cp=1;
-	printHeader(output);
+	printSpaceHeader(output);
 	for (unsigned int i=0; i<dimension1->size();i++){
 		cdimension1=(*dimension1)[i];
 		for (unsigned int j=0; j<dimension2->size();j++){
@@ -110,9 +112,10 @@ void DLPBench::launchBench(ostream *output) {
 									*output<<", " << cp;
 								}
 								*output<<", " << cdensity;
-								generateMatrix(cdimension1,cdimension2,cdimension3,cdensity,cstructure);
+								generateMatrix(cdimension1,cdimension2,cdimension3,cdensity,cstructure, output);
 								launchTest(output,cp);
-								cout<<'\r'<<num/total<< "%% done";
+								double pc=(double)num/(double)total;
+								cout<<'\r'<<pc<< "% done";
 								}
 							}
 						}
@@ -121,5 +124,9 @@ void DLPBench::launchBench(ostream *output) {
 			}
 		}
 	}
+
+void printSpaceHeader(ostream *output){
+	*output << "N, DIM1, DIM2, DIM3, DICHO, P, DENSITY, NODES, LEAVES, TREE, COUNTER Q, COUNTER BC, COUNTER BP, TIME Q, TIME DICHO, TIME BC, TIME BP, P RETRIEVED" <<endl;
+}
 
 } /* namespace std */
