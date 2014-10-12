@@ -36,7 +36,12 @@ void VirtualNode::setId(int id) {
 	this->id = id;
 }
 
-VirtualNode::VirtualNode(int id, VirtualNode* father): id(id), value(0), father(father), children(vector<VirtualNode*>()) {
+VirtualNode::VirtualNode(int id, VirtualNode* father): id(id), value(0), children(vector<VirtualNode*>()) {
+	if (father!=0){
+		father->addChild(this);
+	}else{
+		this->father=0;
+	}
 }
 
 VirtualNode::~VirtualNode() {

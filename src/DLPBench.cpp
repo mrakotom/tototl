@@ -29,16 +29,15 @@ void DLPBench::generateMatrix(int time, int nodes, int types, double density,
     vector<VirtualNode*>pendings=vector<VirtualNode*>();
 
     dlp->newRoot(0);
-    elements.push_back(new VirtualNode(0,0));
+    elements.push_back(new VirtualNode());
 
     for (int i=1, j=0; i<nodes+1; i++) {
-       elements.push_back(new VirtualNode(i,0));
-       elements[j]->addChild(elements[elements.size()-1]);
+       elements.push_back(new VirtualNode(i,elements[j]));
        if (i%structure==0)
                 j++;
         }
 
-    for (unsigned int i=0; i< elements.size(); i++) {
+    for (unsigned int i=1; i< elements.size(); i++) {
         if (!elements[i]->hasChild()){
             leaves.push_back(elements[i]);
         }else{
