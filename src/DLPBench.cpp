@@ -80,6 +80,8 @@ void DLPBench::launchTest(ostream* output, double p) {
 }
 
 void DLPBench::launchBench(ostream *output) {
+	int total=dimension1->size()*dimension2->size()*dimension3->size()*density->size()*p->size()*structure->size()*iteration;
+	cout<<total<< "tests to run"<<endl;
 	int num=0;
 	int cdimension1=1;
 	int cdimension2=1;
@@ -110,6 +112,7 @@ void DLPBench::launchBench(ostream *output) {
 								*output<<", " << cdensity;
 								generateMatrix(cdimension1,cdimension2,cdimension3,cdensity,cstructure);
 								launchTest(output,cp);
+								cout<<'\r'<<num/total<< "%% done";
 								}
 							}
 						}
