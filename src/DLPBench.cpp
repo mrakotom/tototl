@@ -114,7 +114,7 @@ void DLPBench::launchBench(ostream *output) {
 								*output<<", " << cdensity;
 								generateMatrix(cdimension1,cdimension2,cdimension3,cdensity,cstructure, output);
 								launchTest(output,cp);
-								double pc=(double)num/(double)total;
+								double pc=100.0*(double)num/(double)total;
 								cout<<'\r'<<pc<< " %                    ";
 								}
 							}
