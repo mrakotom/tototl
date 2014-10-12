@@ -41,7 +41,7 @@ class OLPBench {
 		void addP(vector<string> tab);
 		void addDensity(vector<string> tab);
 		void launchBench(ostream *output);
-	private:
+	protected:
 		void addLineInteger(vector<string> tab, vector<int>*);
 		void addLineDouble(vector<string> tab, vector<double>*);
 		void addLineFloat(vector<string> tab, vector<float>*);

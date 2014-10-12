@@ -6,16 +6,19 @@
 CPP_SRCS += \
 ../src/DLPBench.cpp \
 ../src/OLPBench.cpp \
+../src/VirtualNode.cpp \
 ../src/tototl.cpp 
 
 OBJS += \
 ./src/DLPBench.o \
 ./src/OLPBench.o \
+./src/VirtualNode.o \
 ./src/tototl.o 
 
 CPP_DEPS += \
 ./src/DLPBench.d \
 ./src/OLPBench.d \
+./src/VirtualNode.d \
 ./src/tototl.d 
 
 

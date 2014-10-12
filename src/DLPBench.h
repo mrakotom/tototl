@@ -10,12 +10,13 @@
 
 #include "OLPBench.h"
 #include <benchlpaggreg/DLPAggregWrapper.h>
+#include "VirtualNode.h"
 
 namespace std {
 
 class DLPBench: public OLPBench {
 		vector<int> * structure;
-		DLPAggregWrapper dlp;
+		DLPAggregWrapper * dlp;
 	public:
 		DLPBench();
 		virtual ~DLPBench();

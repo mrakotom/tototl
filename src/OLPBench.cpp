@@ -39,6 +39,11 @@ void OLPBench::addDensity(vector<string> tab) {
 }
 
 OLPBench::~OLPBench() {
+	delete dimension1;
+	delete dimension2;
+	delete dimension3;
+	delete p;
+	delete density;
 }
 
 void OLPBench::addLineInteger(vector<string> tab, vector<int> * allocator) {
