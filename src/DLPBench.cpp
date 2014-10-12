@@ -58,6 +58,7 @@ void DLPBench::generateMatrix(int time, int nodes, int types, double density,
     		}
     	}
     }
+
     dlp->validate();
 
     delete elements[0];
@@ -88,7 +89,7 @@ void DLPBench::launchBench(ostream *output) {
 	int cdimension1=1;
 	int cdimension2=1;
 	int cdimension3=1;
-	int cstructure=1;
+	int cstructure=2;
 	double cdensity=1;
 	double cp=1;
 	printSpaceHeader(output);
@@ -99,7 +100,7 @@ void DLPBench::launchBench(ostream *output) {
 			for (unsigned int k=0; k<dimension3->size();k++){
 				cdimension3=(*dimension3)[k];
 				for (unsigned int o=0; o<structure->size(); o++){
-					cstructure=o;
+					cstructure=(*structure)[o];
 					for (unsigned int l=0; l<density->size(); l++){
 						cdensity=(*density)[l];
 						for (unsigned int m=0; m<p->size(); m++){
