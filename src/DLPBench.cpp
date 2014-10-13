@@ -65,14 +65,13 @@ void DLPBench::generateMatrix(int time, int nodes, int types, double density,
 
 void DLPBench::launchTest(ostream* output, double p) {
 	timeval t1,t2;
-	int dicho;
 	double param=p;
 	dlp->computeQualities(false);
 	gettimeofday(&t1, NULL);
 	dlp->computeDichotomy(threshold);
 	gettimeofday(&t2, NULL);
-	dicho=((t2.tv_sec - t1.tv_sec) * 1000)
-			+ ((t2.tv_usec - t1.tv_usec) / 1000);
+	double dicho=((double) (t2.tv_sec - t1.tv_sec) * 1000.0)
+			+ ((double) (t2.tv_usec - t1.tv_usec) / 1000.0);
 	if (param==-1){
 		param=rand()/RAND_MAX;
 	}

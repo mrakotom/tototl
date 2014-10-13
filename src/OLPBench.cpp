@@ -157,14 +157,13 @@ void OLPBench::generateMatrix(int i, int j, int k, double density) {
 
 void OLPBench::launchTest(ostream *output, double p) {
 	timeval t1,t2;
-	int dicho;
 	double param=p;
 	olp->computeQualities(false);
 	gettimeofday(&t1, NULL);
 	olp->computeDichotomy(threshold);
 	gettimeofday(&t2, NULL);
-	dicho=((t2.tv_sec - t1.tv_sec) * 1000)
-			+ ((t2.tv_usec - t1.tv_usec) / 1000);
+	double dicho=((double) (t2.tv_sec - t1.tv_sec) * 1000.0)
+			+ ((double) (t2.tv_usec - t1.tv_usec) / 1000.0);
 	if (param==-1){
 		param=rand()/RAND_MAX;
 	}
