@@ -21,13 +21,20 @@ void DLPBench::addStructure(vector<string> tab) {
 	addLineInteger(tab, structure);
 }
 
-void DLPBench::generateMatrix(int time, int nodes, int types, double density,
+void DLPBench::generateMatrix(int time, int lvl, int types, double density,
 		int structure, ostream *output) {
 	dlp= new DLPAggregWrapper(2);
     vector<VirtualNode*>elements=vector<VirtualNode*>();
     vector<VirtualNode*>leaves=vector<VirtualNode*>();
     vector<VirtualNode*>pendings=vector<VirtualNode*>();
-
+    int nodes=0;
+    for (int i=0; i<lvl; i++){
+    	int temp=1;
+    	for (int j=0; j<i+1;j++){
+    		temp*=structure;
+    	}
+    	nodes+=temp;
+    }
     dlp->newRoot(0);
     elements.push_back(new VirtualNode());
 
@@ -125,7 +132,7 @@ void DLPBench::launchBench(ostream *output) {
 	}
 
 void printSpaceHeader(ostream *output){
-	*output << "N, DIM1, DIM2, DIM3, DICHO, P, DENSITY, NODES, LEAVES, TREE, COUNTER Q, COUNTER BC, COUNTER BP, TIME Q, TIME DICHO, TIME BC, TIME BP, P RETRIEVED" <<endl;
+	*output << "N, DIM1, LVL, DIM3, DICHO, P, DENSITY, NODES, LEAVES, TREE, COUNTER Q, COUNTER BC, COUNTER BP, TIME Q, TIME DICHO, TIME BC, TIME BP, P RETRIEVED" <<endl;
 }
 
 } /* namespace std */

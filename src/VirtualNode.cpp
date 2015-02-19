@@ -48,6 +48,7 @@ VirtualNode::~VirtualNode() {
 	for (unsigned int i=0; i<children.size(); i++){
 		delete children[i];
 	}
+	children.clear();
 }
 
 void VirtualNode::addChild(VirtualNode* child) {

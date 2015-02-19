@@ -23,7 +23,7 @@
 			for (unsigned int i=0; i<(*loop).size(); i++){ \
 				tab.push_back((*loop)[i].c_str());}
 
-#define SBENCH DLPBench* bencht=static_cast<DLPBench*>(bench);\
+#define STBENCH DLPBench* bencht=static_cast<DLPBench*>(bench);\
 				bencht
 
 #define TBENCH bench
@@ -34,7 +34,7 @@
 
 using namespace std;
 
-enum State { Idle, Test, D1, D2, D3, Dicho, P, Density, Iteration, Tree};
+enum State { Idle, Test, D1, D2, LVL, D3, Dicho, P, Density, Iteration, Tree};
 
 enum Type { Void, Temporal, Spatiotemporal };
 
@@ -58,6 +58,7 @@ int main(int argc, const char* argv[]) {
     	if ((*loop)[0].compare("#TEST")==0){ state=Test;}
     	else if ((*loop)[0].compare("#D1")==0) {state=D1;}
     	else if ((*loop)[0].compare("#D2")==0) {state=D2;}
+    	else if ((*loop)[0].compare("#LVL")==0) {state=LVL;}
     	else if ((*loop)[0].compare("#D3")==0) {state=D3;}
     	else if ((*loop)[0].compare("#DICHO")==0) {state=Dicho;}
     	else if ((*loop)[0].compare("#P")==0) {state=P;}
@@ -71,19 +72,20 @@ int main(int argc, const char* argv[]) {
     			else if ((*loop)[0].compare("SPATIOTEMPORAL")==0){ type=Spatiotemporal; delete bench; bench = new DLPBench();}
     		}
     		else if (TEST && state==D1){ READ TBENCH->addDimension1(tab);}
-    		else if (TEST && state==D2){ READ TBENCH->addDimension2(tab);}
+    		else if (TEST && state==D2&&type==Temporal){ READ TBENCH->addDimension2(tab);}
+    		else if (TEST && state==LVL&&type==Spatiotemporal){ READ STBENCH->addDimension2(tab);}
     		else if (TEST && state==D3){ READ TBENCH->addDimension3(tab);}
     		else if (TEST && state==Dicho){ READ TBENCH->addThreshold(tab);}
     		else if (TEST && state==P){ READ TBENCH->addP(tab);}
     		else if (TEST && state==Density){ READ TBENCH->addDensity(tab);}
     		else if (TEST && state==Iteration){ READ TBENCH->addIteration(tab);}
-    		else if (TEST && state==Tree&&type==Spatiotemporal){ READ SBENCH->addStructure(tab);}
+    		else if (TEST && state==Tree&&type==Spatiotemporal){ READ STBENCH->addStructure(tab);}
     	}
     }
     if (type==Temporal){
     	TBENCH->launchBench(output);
     }else if (type==Spatiotemporal){
-    	SBENCH->launchBench(output);
+    	STBENCH->launchBench(output);
     }
     return 0;
 }
