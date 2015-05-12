@@ -30,7 +30,6 @@ Clone, compile and install tototl
     $ git clone git@github.com:dosimont/tototl.git
     $ cd tototl
     $ make
-    $ sudo make install
     
 ##Usage
 
