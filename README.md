@@ -34,6 +34,6 @@ Clone, compile and install tototl
     
 ##Usage
 
-    ./tototl input output
+    $ ./tototl input output
 
 Some examples of input files are given in the directory samples
