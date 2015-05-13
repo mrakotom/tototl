@@ -1,5 +1,6 @@
 # All Target
 OBJ=tototl
+.PHONY: release install clean
 
 all: release
 

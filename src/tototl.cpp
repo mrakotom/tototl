@@ -15,7 +15,6 @@
 #include <string>
 #include <math.h>
 #include <csvreader/CSVIterator.h>
-#include <lpaggreg/OLPAggregWrapper.h>
 #include "OLPBench.h"
 #include "DLPBench.h"
 
