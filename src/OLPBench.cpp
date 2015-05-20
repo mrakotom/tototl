@@ -47,7 +47,7 @@ OLPBench::~OLPBench() {
 }
 
 void OLPBench::addLineInteger(vector<string> tab, vector<int> * allocator) {
-	if (tab.size()==3&&(atoi((tab[1]).c_str())>atoi((tab[2]).c_str()))){
+	if (tab.size()==3&&(atoi((tab[1]).c_str())>atoi((tab[2]).c_str())) && (atoi((tab[1]).c_str())>atoi((tab[0]).c_str()))){
 		for (int i=(atoi((tab[0]).c_str())); i<=(atoi((tab[1]).c_str())); i+=(atoi((tab[2]).c_str())))
 		allocator->push_back(i);
 	}else{
