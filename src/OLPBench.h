@@ -15,7 +15,11 @@
 #include <sstream>
 #include <time.h>
 #include <sys/time.h>
+#ifdef OPENMP
+#include <openmplpaggreg/OLPAggregWrapper.h>
+#else
 #include <benchlpaggreg/OLPAggregWrapper.h>
+#endif
 
 using namespace std;
 

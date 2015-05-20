@@ -9,7 +9,11 @@
 #define SRC_DLPBENCH_H_
 
 #include "OLPBench.h"
+#ifdef OPENMP
+#include <openmplpaggreg/DLPAggregWrapper.h>
+#else
 #include <benchlpaggreg/DLPAggregWrapper.h>
+#endif
 #include "VirtualNode.h"
 
 namespace std {
