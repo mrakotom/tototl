@@ -1,20 +1,20 @@
 # All Target
 OBJ=tototl
-.PHONY: release release-openmp install install-openmp clean
+.PHONY: all release openmp install install-openmp clean
 
 all: release
 
 release:
 	(cd Release; make)
 
-release-openmp
+openmp
 	(cd openmp; make)
 
 install:
 	cp Release/${OBJ} /usr/bin/
 	
 install-openmp:
-	cp openmp/${OBJ} /usr/bin/
+	cp openmp/${OBJ}-openmp /usr/bin/
 
 clean:
 	(cd Release; make clean)
