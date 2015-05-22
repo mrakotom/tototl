@@ -7,7 +7,7 @@ all: release
 release:
 	(cd Release; make)
 
-openmp
+openmp:
 	(cd openmp; make)
 
 install:
